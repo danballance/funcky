@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "funcki"
+name = "funcky"
 version = "0.1.0"
 description = "Functional music generation in python"
 authors = ["Dan Ballance <work@danballance.uk>"]
