@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "funcki"
+version = "0.1.0"
+description = "Functional music generation in python"
+authors = ["Dan Ballance <work@danballance.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+python-rtmidi = "^1.5.8"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
