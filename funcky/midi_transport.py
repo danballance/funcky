@@ -1,7 +1,7 @@
 from rtmidi import MidiIn, MidiOut
 from rtmidi.midiconstants import SONG_START, SONG_STOP, SONG_CONTINUE, TIMING_CLOCK
 
-from funcky.song_base import SongProtocol
+from funcky.songs.song_base import SongProtocol
 
 
 class MidiTransport:
