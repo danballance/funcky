@@ -7,7 +7,7 @@ class Event:
     note: int  # Range 0-127
     velocity: int  # Range 0-127
 
-    def to_wire(self):
+    def to_wire(self) -> tuple[int, int, int]:
         return self.cmd, self.note, self.velocity
 
 

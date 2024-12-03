@@ -1,3 +1,4 @@
+from funcky.named_constants import TICKS_PER_BAR
 from funcky.parts.mono_part import MonoPart
 
 from funcky.songs.simple_song import SimpleSong
@@ -8,7 +9,7 @@ song = SimpleSong(
     tracks=[
         MonoPart(
             generator=track_one,
-            ticks_per_bar=96,
+            ticks_per_bar=TICKS_PER_BAR,
         )
     ]
 )

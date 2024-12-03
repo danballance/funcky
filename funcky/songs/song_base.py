@@ -4,11 +4,10 @@ from typing import Generator, Protocol
 from funcky.parts.mono_part import MonoPart
 from funcky.dtos import Event
 from funcky.parts.part import Part
-from funcky.sequences.event_sequence import EventSequence
 
 
 class SongProtocol(Protocol):
-    def tick(self) -> Generator[EventSequence, None, None]:
+    def tick(self) -> Generator[Event, None, None]:
         pass
 
     def song_start(self) -> None:
