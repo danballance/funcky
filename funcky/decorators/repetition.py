@@ -1,7 +1,7 @@
 from functools import wraps
 
 from funcky.dtos import Note
-from funcky.named_constants import Step, Key, VALID_STEPS
+from funcky.named_constants import Step, VALID_STEPS
 from funcky.rhythm import TicksFunc, steps_to_ticks
 from funcky.type_guards import is_valid_midi
 
@@ -36,27 +36,5 @@ class Repetition:
                         duration=self._duration_ticks,
                         velocity=self._velocity
                     )
-            return seq
-        return wrapper
-
-
-class Scale:
-    def __init__(self, key: Key):
-        self.key = key
-
-    def __call__(self, func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            seq = func(*args, **kwargs)  # Call the wrapped function first
-            for i in range(len(seq)):
-                if seq[i] is not None:
-                    if i in [0, 12]:  # 1,2 - 8ths
-                        seq[i].note = 60  # middle C
-                    elif i in [24, 36]:  # 3,4 - 8ths
-                        seq[i].note = 63  # middle Eb
-                    elif i in [48, 60]:  # 5,6 - 8ths
-                        seq[i].note = 67  # middle G
-                    elif i in [72, 84]:  # 7,8 - 8ths
-                        seq[i].note = 70  # middle Bb
             return seq
         return wrapper
