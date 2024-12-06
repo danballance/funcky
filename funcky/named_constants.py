@@ -44,9 +44,6 @@ class Pitch:
 
 class Mode(Enum):
     Major = [0, 2, 4, 5, 7, 9, 11, 12]
-    Minor = "Minor"
-
-
-class Key(StrEnum):
-    C = "C"
-    Cm = "Cm"
+    Minor = [0, 2, 3, 5, 7, 8, 10, 12]
+    HarmonicMinor = [0, 2, 3, 5, 7, 8, 11, 12]
+    MelodicMinor = [0, 2, 3, 5, 7, 9, 11, 12]
