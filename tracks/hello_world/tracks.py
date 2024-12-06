@@ -1,4 +1,5 @@
 from funcky.decorators.repetition import Repetition
+from funcky.decorators.transpose import Transpose
 from funcky.decorators.tune import Tune
 
 from funcky.named_constants import Pitch, Tone, Mode
@@ -7,11 +8,15 @@ from funcky.scales import scale_generator
 from funcky.sequences.note_sequence import NoteSequence
 
 
+@Transpose(
+    cycle_length=8,
+    transposition_pattern=[0, 0, 2, 1]
+)
 @Tune(
     scale_generator=scale_generator(
         root=Pitch(tone=Tone.C, octave=4, accidental=0),
-        mode=Mode.Major,
-        notes=lambda: [1, 2, 3, 4, 5, 6, 7, 8],
+        mode=Mode.Minor,
+        notes=lambda: [1, 3, 4, 5],
     )
 )
 @Repetition(steps=steps_8)
