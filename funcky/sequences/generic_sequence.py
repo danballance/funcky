@@ -1,6 +1,3 @@
-from typing import Generic
-
-
 class GenericSequence[T]:
     _items = list[T | None]
 
