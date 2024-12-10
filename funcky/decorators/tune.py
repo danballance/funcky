@@ -1,8 +1,10 @@
-from functools import wraps
 from typing import Generator
 
+from funcky.decorators.base_decorator import BaseDecorator
+from funcky.sequences.note_sequence import NoteSequence
 
-class Tune:
+
+class Tune(BaseDecorator):
     _scale_generator: Generator[int]
 
     def __init__(
@@ -11,12 +13,7 @@ class Tune:
     ):
         self._scale_generator = scale_generator
 
-    def __call__(self, func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            seq = func(*args, **kwargs)
-            for i in range(len(seq)):
-                if seq[i] is not None:
-                    seq[i].note = self._scale_generator.__next__()
-            return seq
-        return wrapper
+    def _decorate(self, seq: NoteSequence, i: int) -> NoteSequence:
+        if seq[i] is not None:
+            seq[i].note = self._scale_generator.__next__()
+        return seq

@@ -1,9 +1,11 @@
-from functools import wraps
 from itertools import cycle
 from typing import Generator
 
+from funcky.decorators.base_decorator import BaseDecorator
+from funcky.sequences.note_sequence import NoteSequence
 
-class Transpose:
+
+class Transpose(BaseDecorator):
     _interval_generator: Generator[int]
 
     def __init__(
@@ -16,15 +18,10 @@ class Transpose:
             transposition_pattern=transposition_pattern,
         )
 
-    def __call__(self, func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            seq = func(*args, **kwargs)
-            for i in range(len(seq)):
-                if seq[i] is not None:
-                    seq[i].note += self._interval_generator.__next__()
-            return seq
-        return wrapper
+    def _decorate(self, seq: NoteSequence, i: int) -> NoteSequence:
+        if seq[i] is not None:
+            seq[i].note += self._interval_generator.__next__()
+        return seq
 
     def _make_interval_generator(
         self,

@@ -1,12 +1,14 @@
-from functools import wraps
+from collections.abc import Iterable
 
+from funcky.decorators.base_decorator import BaseDecorator
 from funcky.dtos import Note
 from funcky.named_constants import Step, VALID_STEPS
 from funcky.rhythm import TicksFunc, steps_to_ticks
+from funcky.sequences.note_sequence import NoteSequence
 from funcky.type_guards import is_valid_midi
 
 
-class Repetition:
+class Repetition(BaseDecorator):
     def __init__(
         self,
         steps: TicksFunc,
@@ -25,16 +27,14 @@ class Repetition:
         if not is_valid_midi(velocity):
             raise TypeError(f"velocity of {velocity} is not a valid midi value 0-127")
 
-    def __call__(self, func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            seq = func(*args, **kwargs)
-            for i in self._steps():
-                if seq[i] is None:
-                    seq[i] = Note(
-                        note=self._root_note,
-                        duration=self._duration_ticks,
-                        velocity=self._velocity
-                    )
-            return seq
-        return wrapper
+    def _indexes(self, seq: NoteSequence) -> Iterable[int]:
+        return self._steps()
+
+    def _decorate(self, seq: NoteSequence, i: int) -> NoteSequence:
+        if seq[i] is None:
+            seq[i] = Note(
+                note=self._root_note,
+                duration=self._duration_ticks,
+                velocity=self._velocity
+            )
+        return seq
