@@ -2,8 +2,9 @@ import os
 import sys
 import traceback
 
-from funcky.decorators.base_decorator import BaseDecorator
+from funcky.named_constants import DebugSequenceKey
 from funcky.utils.debug_dumper import DebugDumper
+from funcky.utils.debug_store import DebugStore
 
 DEBUG = os.environ.get("DEBUG", "false").lower() in ("1", "true", "yes")
 
@@ -11,10 +12,18 @@ DEBUG = os.environ.get("DEBUG", "false").lower() in ("1", "true", "yes")
 def cleanup():
     """Common cleanup logic shared by all exit paths."""
     if DEBUG:
-        print("Running debug dumping logic...")
-        csv_dumper = DebugDumper(data=BaseDecorator.get_debug_data())
-        csv_dumper.dump()
-        print("... done.")
+        print("Generating debug spreadsheets ...")
+        all_debug_data = DebugStore.get_all_data()
+        for track_name, track_data in all_debug_data.items():
+            print(f"... write data for {track_name=}")
+            spreadsheet_dumper = DebugDumper(
+                track_name=track_name,
+                data=track_data[DebugSequenceKey.NOTE]
+            )
+            spreadsheet_dumper.dump()
+            print("...... done.")
+        print("... all done.")
+
 
 def handle_sigint(signum, frame):
     """Handler for SIGINT (Ctrl-C)."""

@@ -1,7 +1,7 @@
 import signal
 import sys
 
-from funcky.debug import handle_sigint, excepthook
+from funcky.utils.debug import handle_sigint, excepthook
 from funcky.midi_transport import MidiTransport
 from tracks.hello_world.song import song
 

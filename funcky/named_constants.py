@@ -47,3 +47,8 @@ class Mode(Enum):
     Minor = [0, 2, 3, 5, 7, 8, 10, 12]
     HarmonicMinor = [0, 2, 3, 5, 7, 8, 11, 12]
     MelodicMinor = [0, 2, 3, 5, 7, 9, 11, 12]
+
+
+class DebugSequenceKey(StrEnum):
+    EVENT = "event"
+    NOTE = "note"

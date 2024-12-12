@@ -11,9 +11,11 @@ class DebugDumper:
     """
     Quick and dirty script for dumping debug data to xlxs file for investigation
     """
+    _track_name: str
     _data: dict[str, list[NoteSequence]]
 
-    def __init__(self, data: dict[str, list[NoteSequence]]):
+    def __init__(self, track_name: str, data: dict[str, list[NoteSequence]]):
+        self._track_name = track_name
         self._data = data
 
     def _sequence_to_row(self, i: int, key:str, seq: NoteSequence) -> list[str]:
@@ -119,4 +121,4 @@ class DebugDumper:
         # Apply column formatting to the combined sheet
         self._apply_column_formatting(combined_sheet)
         # Save the workbook
-        wb.save(f"debug.{int(time.time())}.xlsx")
+        wb.save(f"debug.{self._track_name}.{int(time.time())}.xlsx")

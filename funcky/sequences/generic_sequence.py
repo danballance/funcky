@@ -1,3 +1,6 @@
+import copy
+
+
 class GenericSequence[T]:
     _items = list[T | None]
 
@@ -21,3 +24,11 @@ class GenericSequence[T]:
 
     def __repr__(self) -> str:
         return f"GenericSequence({self._items})"
+
+    def copy(self) -> "GenericSequence[T]":
+        """
+        Returns a deep copy of the data to ensure no references back to the original.
+        """
+        new_copy = GenericSequence(self._size)
+        new_copy._items = copy.deepcopy(self._items)
+        return new_copy

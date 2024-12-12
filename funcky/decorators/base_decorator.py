@@ -1,29 +1,31 @@
 import os
 from abc import ABC, abstractmethod
-from collections import defaultdict
 from functools import wraps
 from typing import Iterable
 
 from funcky.sequences.note_sequence import SequenceOperation, NoteSequence
+from funcky.utils.debug_store import DebugStore
 
 DEBUG = os.environ.get("DEBUG", "false").lower() in ("1", "true", "yes")
 
 
 class BaseDecorator(ABC):
-    _debug_data: dict[str, list[NoteSequence]] = defaultdict(list)
-
-    @classmethod
-    def get_debug_data(cls) -> dict[str, list[NoteSequence]]:
-        return cls._debug_data
+    _func_name: str
 
     def __call__(self, func: SequenceOperation) -> SequenceOperation:
+        self._func_name = func.__name__
+
         @wraps(func)
         def wrapper(*args, **kwargs):
             seq = func(*args, **kwargs)
             for i in self._indexes(seq):
                 seq = self._decorate(seq, i)
             if DEBUG:
-                self._debug_data[self.__class__.__name__].append(seq)
+                DebugStore.add_note_sequence(
+                    track_name=self._func_name,
+                    decorator_name=self.__class__.__name__,
+                    note_sequence=seq.copy(),
+                )
             return seq
         return wrapper
 
