@@ -10,9 +10,10 @@ class GenericSequence[T]:
 
     def __setitem__(self, index: int, value: T) -> None:
         if self._items[index] is not None:
-            raise ValueError("Cannot overwrite existing items")
+            old_value = self._items[index]
+            raise ValueError(f"Cannot overwrite existing items: {index=} old_value={old_value} new_value={value}")
         if index < 0 or index >= self._size:
-            raise IndexError("Index out of range")
+            raise IndexError(f"Index out of range {index=}")
         self._items[index] = value
 
     def __len__(self) -> int:
