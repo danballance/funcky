@@ -4,7 +4,7 @@ from openpyxl.styles import PatternFill
 from openpyxl.workbook import Workbook
 
 from funcky.named_constants import TICKS_PER_BAR
-from funcky.sequences.note_sequence import NoteSequence
+from funcky.sequences.note_mono_sequence import NoteMonoSequence
 
 
 class DebugDumper:
@@ -12,13 +12,13 @@ class DebugDumper:
     Quick and dirty script for dumping debug data to xlxs file for investigation
     """
     _track_name: str
-    _data: dict[str, list[NoteSequence]]
+    _data: dict[str, list[NoteMonoSequence]]
 
-    def __init__(self, track_name: str, data: dict[str, list[NoteSequence]]):
+    def __init__(self, track_name: str, data: dict[str, list[NoteMonoSequence]]):
         self._track_name = track_name
         self._data = data
 
-    def _sequence_to_row(self, i: int, key:str, seq: NoteSequence) -> list[str]:
+    def _sequence_to_row(self, i: int, key:str, seq: NoteMonoSequence) -> list[str]:
         row = [f"{i} {key}"]
         for note in seq._items:
             if note is None:

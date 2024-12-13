@@ -7,7 +7,7 @@ from funcky.parts.part import Part
 
 
 class SongProtocol(Protocol):
-    def tick(self) -> Generator[Event, None, None]:
+    def tick(self) -> Generator[Event | list[Event], None, None]:
         pass
 
     def song_start(self) -> None:
@@ -32,7 +32,7 @@ class SongBase(ABC, SongProtocol):
     def _current_tick(self) -> int:
         return self._clock_pulses % 96
 
-    def tick(self) -> Generator[Event, None, None]:
+    def tick(self) -> Generator[Event | list[Event], None, None]:
         self._clock_pulses += 1
         print(f"clock is now {self._current_tick}")
         # @TODO temporary - refactor for multiple tracks

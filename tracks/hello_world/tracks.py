@@ -4,9 +4,9 @@ from funcky.decorators.transpose import Transpose
 from funcky.decorators.tune import Tune
 
 from funcky.named_constants import Pitch, Tone, Mode
-from funcky.rhythm import steps_8, steps_16
+from funcky.rhythm import steps_16
 from funcky.scales import scale_generator
-from funcky.sequences.note_sequence import NoteSequence
+from funcky.sequences.note_mono_sequence import NoteMonoSequence
 
 
 @Accent(
@@ -24,6 +24,6 @@ from funcky.sequences.note_sequence import NoteSequence
         notes=lambda: [1, 3, 4, 5],
     )
 )
-@Repetition(steps=steps_8)
-def track_one(seq: NoteSequence) -> NoteSequence:
+@Repetition(steps=steps_16)
+def track_one(seq: NoteMonoSequence) -> NoteMonoSequence:
     return seq

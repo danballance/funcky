@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from funcky.sequences.event_sequence import EventSequence
+from funcky.sequences.event_mono_sequence import EventMonoSequence
 
 
 class Part(ABC):
@@ -10,5 +10,5 @@ class Part(ABC):
         raise NotImplemented
 
     @abstractmethod
-    def current_events(self) -> EventSequence:
+    def current_events(self) -> EventMonoSequence:
         raise NotImplemented

@@ -3,8 +3,8 @@ from threading import Lock
 from typing import Union
 
 from funcky.named_constants import DebugSequenceKey
-from funcky.sequences.event_sequence import EventSequence
-from funcky.sequences.note_sequence import NoteSequence
+from funcky.sequences.event_mono_sequence import EventMonoSequence
+from funcky.sequences.note_mono_sequence import NoteMonoSequence
 
 
 class DebugStore:
@@ -24,7 +24,7 @@ class DebugStore:
         cls,
         track_name: str,
         decorator_name: str,
-        event_sequence: EventSequence
+        event_sequence: EventMonoSequence
     ):
         """Add an EventSequence to the specified track."""
         with cls._lock:
@@ -35,7 +35,7 @@ class DebugStore:
         cls,
         track_name: str,
         decorator_name: str,
-        note_sequence: NoteSequence
+        note_sequence: NoteMonoSequence
     ):
         """Add a NoteSequence to the specified track."""
         with cls._lock:
@@ -45,7 +45,7 @@ class DebugStore:
     def get_event_sequences_by_track(
         cls,
         track_name: str
-    ) -> list[EventSequence]:
+    ) -> list[EventMonoSequence]:
         """Retrieve all EventSequences for the specified track."""
         with cls._lock:
             return cls._data.get(track_name, {}).get(DebugSequenceKey.EVENT, [])
@@ -54,7 +54,7 @@ class DebugStore:
     def get_note_sequences_by_track(
         cls,
         track_name: str
-    ) -> list[NoteSequence]:
+    ) -> list[NoteMonoSequence]:
         """Retrieve all NoteSequences for the specified track."""
         with cls._lock:
             return cls._data.get(track_name, {}).get(DebugSequenceKey.NOTE, [])
@@ -63,7 +63,7 @@ class DebugStore:
     def get_data_by_track(
         cls,
         track_name: str
-    ) -> dict[DebugSequenceKey, dict[str, list[Union[NoteSequence, EventSequence]]]]:
+    ) -> dict[DebugSequenceKey, dict[str, list[Union[NoteMonoSequence, EventMonoSequence]]]]:
         """Retrieve all NoteSequences for the specified track."""
         with cls._lock:
             return cls._data.get(track_name, {})
@@ -71,7 +71,7 @@ class DebugStore:
     @classmethod
     def get_all_data(
         cls
-    ) -> dict[str, dict[DebugSequenceKey, dict[str, list[Union[NoteSequence, EventSequence]]]]]:
+    ) -> dict[str, dict[DebugSequenceKey, dict[str, list[Union[NoteMonoSequence, EventMonoSequence]]]]]:
         """Return the entire debug data store."""
         with cls._lock:
             return cls._data

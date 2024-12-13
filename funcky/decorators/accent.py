@@ -2,7 +2,7 @@ from itertools import cycle
 from typing import Generator
 
 from funcky.decorators.base_decorator import BaseDecorator
-from funcky.sequences.note_sequence import NoteSequence
+from funcky.sequences.note_mono_sequence import NoteMonoSequence
 
 
 class Accent(BaseDecorator):
@@ -18,7 +18,7 @@ class Accent(BaseDecorator):
             accent_pattern=accent_pattern,
         )
 
-    def _decorate(self, seq: NoteSequence, i: int) -> NoteSequence:
+    def _decorate(self, seq: NoteMonoSequence, i: int) -> NoteMonoSequence:
         if seq[i] is not None:
             seq[i].velocity += self._accent_generator.__next__()
         return seq

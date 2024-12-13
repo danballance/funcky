@@ -4,7 +4,7 @@ from funcky.decorators.base_decorator import BaseDecorator
 from funcky.dtos import Note
 from funcky.named_constants import Step, VALID_STEPS
 from funcky.rhythm import TicksFunc, steps_to_ticks
-from funcky.sequences.note_sequence import NoteSequence
+from funcky.sequences.note_mono_sequence import NoteMonoSequence
 from funcky.type_guards import is_valid_midi
 
 
@@ -27,10 +27,10 @@ class Repetition(BaseDecorator):
         if not is_valid_midi(velocity):
             raise TypeError(f"velocity of {velocity} is not a valid midi value 0-127")
 
-    def _indexes(self, seq: NoteSequence) -> Iterable[int]:
+    def _indexes(self, seq: NoteMonoSequence) -> Iterable[int]:
         return self._steps()
 
-    def _decorate(self, seq: NoteSequence, i: int) -> NoteSequence:
+    def _decorate(self, seq: NoteMonoSequence, i: int) -> NoteMonoSequence:
         if seq[i] is None:
             seq[i] = Note(
                 note=self._root_note,

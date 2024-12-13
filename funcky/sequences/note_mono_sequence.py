@@ -1,13 +1,14 @@
+import sys
 from typing import Callable
 
 from rtmidi.midiconstants import NOTE_ON, NOTE_OFF
 
-from funcky.sequences.event_sequence import EventSequence
-from funcky.sequences.generic_sequence import GenericSequence
+from funcky.sequences.event_poly_sequence import EventPolySequence
+from funcky.sequences.generic_mono_sequence import GenericMonoSequence
 from funcky.dtos import Note, Event
 
 
-class NoteSequence(GenericSequence):
+class NoteMonoSequence(GenericMonoSequence):
     _items = list[Note | None]
 
     def __init__(self, size: int):
@@ -15,9 +16,9 @@ class NoteSequence(GenericSequence):
 
     def update_events(
         self,
-        current_events: EventSequence,
-        next_events: EventSequence
-    ) -> tuple[EventSequence, EventSequence]:
+        current_events: EventPolySequence,
+        next_events: EventPolySequence
+    ) -> tuple[EventPolySequence, EventPolySequence]:
         for i, note in enumerate(self._items):
             if note is not None:
                 current_events[i] = Event(cmd=NOTE_ON, note=note.note, velocity=note.velocity)
@@ -30,4 +31,4 @@ class NoteSequence(GenericSequence):
         return current_events, next_events
 
 
-SequenceOperation = Callable[[NoteSequence], NoteSequence]
+SequenceMonoOperation = Callable[[NoteMonoSequence], NoteMonoSequence]

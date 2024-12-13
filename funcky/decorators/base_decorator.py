@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from functools import wraps
 from typing import Iterable
 
-from funcky.sequences.note_sequence import SequenceOperation, NoteSequence
+from funcky.sequences.note_mono_sequence import SequenceMonoOperation, NoteMonoSequence
 from funcky.utils.debug_store import DebugStore
 
 DEBUG = os.environ.get("DEBUG", "false").lower() in ("1", "true", "yes")
@@ -12,7 +12,7 @@ DEBUG = os.environ.get("DEBUG", "false").lower() in ("1", "true", "yes")
 class BaseDecorator(ABC):
     _func_name: str
 
-    def __call__(self, func: SequenceOperation) -> SequenceOperation:
+    def __call__(self, func: SequenceMonoOperation) -> SequenceMonoOperation:
         self._func_name = func.__name__
 
         @wraps(func)
@@ -29,7 +29,7 @@ class BaseDecorator(ABC):
             return seq
         return wrapper
 
-    def _indexes(self, seq: NoteSequence) -> Iterable[int]:
+    def _indexes(self, seq: NoteMonoSequence) -> Iterable[int]:
         """
         Override this method to provide a non-incremental means of
         iterating over the note sequence.
@@ -37,7 +37,7 @@ class BaseDecorator(ABC):
         return list(range(len(seq)))
 
     @abstractmethod
-    def _decorate(self, seq: NoteSequence, i: int) -> NoteSequence:
+    def _decorate(self, seq: NoteMonoSequence, i: int) -> NoteMonoSequence:
         """
         Implement this method to manipulate the note sequence.
         """

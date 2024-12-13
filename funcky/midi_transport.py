@@ -1,6 +1,7 @@
 from rtmidi import MidiIn, MidiOut
 from rtmidi.midiconstants import SONG_START, SONG_STOP, SONG_CONTINUE, TIMING_CLOCK
 
+from funcky.dtos import Event
 from funcky.songs.song_base import SongProtocol
 
 
@@ -57,7 +58,10 @@ class MidiTransport:
 
         elif status_byte == TIMING_CLOCK:
             print("Received TIMING CLOCK")
-            for msg in self._song.tick():
-                print(f"{msg=}")
-                if msg:
-                    self._midi_out.send_message(msg.to_wire())
+            generator = self._song.tick()
+            msgs = generator.__next__()
+            print(f"{msgs=}")
+            if isinstance(msgs, Event):
+                msgs = [msgs]
+            for msg in msgs:
+                self._midi_out.send_message(msg.to_wire())

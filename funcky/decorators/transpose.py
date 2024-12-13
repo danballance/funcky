@@ -2,7 +2,7 @@ from itertools import cycle
 from typing import Generator
 
 from funcky.decorators.base_decorator import BaseDecorator
-from funcky.sequences.note_sequence import NoteSequence
+from funcky.sequences.note_mono_sequence import NoteMonoSequence
 
 
 class Transpose(BaseDecorator):
@@ -18,7 +18,7 @@ class Transpose(BaseDecorator):
             transposition_pattern=transposition_pattern,
         )
 
-    def _decorate(self, seq: NoteSequence, i: int) -> NoteSequence:
+    def _decorate(self, seq: NoteMonoSequence, i: int) -> NoteMonoSequence:
         if seq[i] is not None:
             seq[i].note += self._interval_generator.__next__()
         return seq
